@@ -8,7 +8,7 @@ pub enum TileType {
     Floor,
 }
 
-pub fn tile_index(x: i32, y: i32) -> usize {
+pub fn map_index(x: i32, y: i32) -> usize {
     (y * SCREEN_WIDTH + x) as usize
 }
 
@@ -41,7 +41,7 @@ impl Map {
         if !self.in_bounds(point) {
             None
         } else {
-            Some(tile_index(point.x, point.y))
+            Some(map_index(point.x, point.y))
         }
 
     }
@@ -49,7 +49,7 @@ impl Map {
     pub fn render(&self, ctx: &mut BTerm) {
         for y in 0..SCREEN_HEIGHT {
             for x in 0..SCREEN_WIDTH {
-                let idx = tile_index(x, y);
+                let idx = map_index(x, y);
                 match self.tiles[idx] {
                     TileType::Floor => {
                         ctx.set(x, y, YELLOW, BLACK, to_cp437('.'))
