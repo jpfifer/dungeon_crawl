@@ -23,12 +23,15 @@ fn orc() -> (i32, String, FontCharType) {
     (2, "Orc".to_string(), to_cp437('o'))
 }
 
-pub fn spawn_monster(ecs: &mut World, rng: &mut RandomNumberGenerator, pos: Point) {
+pub fn make_monster(
+    rng: &mut RandomNumberGenerator,
+    pos: Point,
+) -> (Enemy, ChasingPlayer, Health, Name, Point, Render) {
     let (hp, name, glyph) = match rng.roll_dice(1, 10) {
         1..=8 => goblin(),
         _ => orc(),
     };
-    ecs.push((
+    (
         Enemy,
         ChasingPlayer,
         Health {
@@ -41,5 +44,39 @@ pub fn spawn_monster(ecs: &mut World, rng: &mut RandomNumberGenerator, pos: Poin
             color: ColorPair::new(WHITE, BLACK),
             glyph,
         },
+    )
+}
+
+pub fn spawn_monster(ecs: &mut World, rng: &mut RandomNumberGenerator, pos: Point) {
+    ecs.push(make_monster(rng, pos));
+}
+
+pub fn spawn_spawner(ecs: &mut World, pos: Point) {
+    ecs.push((
+        Enemy,
+        MonsterSpawner,
+        Health {
+            current: 10,
+            max: 10,
+        },
+        Name("Monster Chest".to_string()),
+        pos,
+        Render {
+            color: ColorPair::new(RED, BLUE),
+            glyph: to_cp437('&'),
+        },
+    ));
+}
+
+pub fn spawn_amulet_of_yala(ecs: &mut World, pos: Point) {
+    ecs.push((
+        Item,
+        AmuletOfYala,
+        pos,
+        Render {
+            color: ColorPair::new(WHITE, BLACK),
+            glyph: to_cp437('|'),
+        },
+        Name("Amulet of Yala".to_string()),
     ));
 }

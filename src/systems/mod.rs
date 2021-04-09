@@ -6,6 +6,7 @@ mod end_turn;
 mod entity_render;
 mod hud;
 mod map_render;
+mod monster_spawner;
 mod movement;
 mod player_input;
 mod random_move;
@@ -45,6 +46,7 @@ pub fn build_monster_schedule() -> Schedule {
         .flush()
         .add_system(movement::movement_system())
         .flush()
+        .add_system(monster_spawner::monster_spawner_system())
         .add_system(map_render::map_render_system())
         .add_system(entity_render::entity_render_system())
         .add_system(hud::hud_system())
