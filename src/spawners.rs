@@ -12,6 +12,7 @@ pub fn spawn_player(ecs: &mut World, pos: Point) {
             color: ColorPair::new(WHITE, BLACK),
             glyph: to_cp437('@'),
         },
+        FieldOfView::new(8),
     ));
 }
 
@@ -26,7 +27,15 @@ fn orc() -> (i32, String, FontCharType) {
 pub fn make_monster(
     rng: &mut RandomNumberGenerator,
     pos: Point,
-) -> (Enemy, ChasingPlayer, Health, Name, Point, Render) {
+) -> (
+    Enemy,
+    ChasingPlayer,
+    Health,
+    Name,
+    Point,
+    Render,
+    FieldOfView,
+) {
     let (hp, name, glyph) = match rng.roll_dice(1, 10) {
         1..=8 => goblin(),
         _ => orc(),
@@ -44,6 +53,7 @@ pub fn make_monster(
             color: ColorPair::new(WHITE, BLACK),
             glyph,
         },
+        FieldOfView::new(6),
     )
 }
 
