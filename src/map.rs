@@ -25,6 +25,22 @@ impl Map {
         }
     }
 
+    pub fn wall(&mut self) {
+        self.tiles
+            .iter_mut()
+            .enumerate()
+            .filter(|(idx, _)| {
+                if *idx < SCREEN_WIDTH as usize {
+                    return true;
+                }
+                if *idx > (SCREEN_WIDTH * (SCREEN_HEIGHT - 1)) as usize {
+                    return true;
+                }
+                idx % (SCREEN_WIDTH as usize) == 0
+            })
+            .for_each(|(_, t)| *t = TileType::Wall);
+    }
+
     pub fn in_bounds(&self, point: Point) -> bool {
         point.x >= 0 && point.x < SCREEN_WIDTH && point.y >= 0 && point.y < SCREEN_HEIGHT
     }

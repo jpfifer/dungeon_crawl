@@ -12,6 +12,10 @@ pub fn player_input(
     commands: &mut CommandBuffer,
 ) {
     if let Some(key) = *key {
+        if key == VirtualKeyCode::R {
+            *turn_state = TurnState::GameOver;
+            return;
+        }
         let delta = match key {
             VirtualKeyCode::Left => Point::new(-1, 0),
             VirtualKeyCode::Right => Point::new(1, 0),

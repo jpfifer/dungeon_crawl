@@ -1,4 +1,5 @@
 mod automata_test;
+mod drunkard_test;
 mod rooms_tests;
 
 use super::*;
@@ -24,4 +25,12 @@ fn display_rooms(mb: &MapBuilder) {
         }
         print!("{}", display);
     })
+}
+
+#[test]
+fn map_builder_test() {
+    let mut rng = RandomNumberGenerator::new();
+    let mb = MapBuilder::new(&mut rng);
+
+    display_rooms(&mb);
 }
