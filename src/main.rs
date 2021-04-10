@@ -43,13 +43,10 @@ impl State {
         spawn_player(&mut ecs, map_builder.player_start);
         spawn_amulet_of_yala(&mut ecs, map_builder.amulet_start);
         map_builder
-            .rooms
+            .monster_spawns
             .iter()
-            .skip(1)
-            .take(map_builder.rooms.len() - 1)
-            .map(|r| r.center())
-            .for_each(|p| spawn_monster(&mut ecs, &mut rng, p));
-        spawn_spawner(&mut ecs, map_builder.rooms.last().unwrap().center());
+            .for_each(|pos| spawn_monster(&mut ecs, &mut rng, *pos));
+        // spawn_spawner(&mut ecs, map_builder.rooms.last().unwrap().center());
         resources.insert(map_builder.map);
         resources.insert(Camera::new(map_builder.player_start));
         resources.insert(TurnState::AwaitingInput);
@@ -97,13 +94,12 @@ impl State {
         let map_builder = MapBuilder::new(&mut rng);
         spawn_player(&mut self.ecs, map_builder.player_start);
         spawn_amulet_of_yala(&mut self.ecs, map_builder.amulet_start);
+
         map_builder
-            .rooms
+            .monster_spawns
             .iter()
-            .skip(1)
-            .map(|r| r.center())
-            .for_each(|p| spawn_monster(&mut self.ecs, &mut rng, p));
-        spawn_spawner(&mut self.ecs, map_builder.rooms.last().unwrap().center());
+            .for_each(|pos| spawn_monster(&mut self.ecs, &mut rng, *pos));
+        // spawn_spawner(&mut self.ecs, map_builder.rooms.last().unwrap().center());
         self.resources.insert(map_builder.map);
         self.resources.insert(Camera::new(map_builder.player_start));
         self.resources.insert(TurnState::AwaitingInput);
