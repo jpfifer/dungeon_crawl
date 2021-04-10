@@ -12,6 +12,7 @@ mod movement;
 mod player_input;
 mod random_move;
 mod tooltips;
+mod use_item;
 
 pub fn build_input_scheduler() -> Schedule {
     Schedule::builder()
@@ -33,6 +34,8 @@ pub fn build_player_scheduler() -> Schedule {
         .flush()
         .add_system(fov::fov_system())
         .flush()
+        .add_system(use_item::use_item_system())
+        .flush()
         .add_system(map_render::map_render_system())
         .add_system(entity_render::entity_render_system())
         .add_system(hud::hud_system())
@@ -51,6 +54,8 @@ pub fn build_monster_schedule() -> Schedule {
         .add_system(movement::movement_system())
         .flush()
         .add_system(fov::fov_system())
+        .flush()
+        .add_system(use_item::use_item_system())
         .flush()
         // .add_system(monster_spawner::monster_spawner_system())
         .add_system(map_render::map_render_system())

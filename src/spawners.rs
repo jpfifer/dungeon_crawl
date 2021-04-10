@@ -16,6 +16,15 @@ pub fn spawn_player(ecs: &mut World, pos: Point) {
     ));
 }
 
+pub fn spawn_entity(ecs: &mut World, rng: &mut RandomNumberGenerator, pos: Point) {
+    let roll = rng.roll_dice(1, 6);
+    match roll {
+        1 => spawn_potion(ecs, pos),
+        2 => spawn_map(ecs, pos),
+        _ => spawn_monster(ecs, rng, pos),
+    }
+}
+
 fn goblin() -> (i32, String, FontCharType) {
     (1, "Goblin".to_string(), to_cp437('g'))
 }
@@ -88,5 +97,31 @@ pub fn spawn_amulet_of_yala(ecs: &mut World, pos: Point) {
             glyph: to_cp437('|'),
         },
         Name("Amulet of Yala".to_string()),
+    ));
+}
+
+fn spawn_potion(ecs: &mut World, pos: Point) {
+    ecs.push((
+        Item,
+        ProvidesHealing { amount: 6 },
+        pos,
+        Render {
+            color: ColorPair::new(WHITE, BLACK),
+            glyph: to_cp437('!'),
+        },
+        Name("Potion of Healing".to_string()),
+    ));
+}
+
+fn spawn_map(ecs: &mut World, pos: Point) {
+    ecs.push((
+        Item,
+        ProvidesDungeonMap,
+        pos,
+        Render {
+            color: ColorPair::new(WHITE, BLACK),
+            glyph: to_cp437('{'),
+        },
+        Name("Dungeon Map".to_string()),
     ));
 }
