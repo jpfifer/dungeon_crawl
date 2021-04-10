@@ -6,7 +6,7 @@ use crate::prelude::*;
 pub fn movement(
     entity: &Entity,
     want_move: &WantsToMove,
-    #[resource] map: &Map,
+    #[resource] map: &mut Map,
     #[resource] camera: &mut Camera,
     ecs: &mut SubWorld,
     commands: &mut CommandBuffer,
@@ -21,6 +21,11 @@ pub fn movement(
 
             if entry.get_component::<Player>().is_ok() {
                 camera.on_player_move(want_move.destination);
+                if let Ok(fov) = entry.get_component::<FieldOfView>() {
+                    fov.visible_tiles
+                        .iter()
+                        .for_each(|p| map.revealed_tiles[map_index(p.x, p.y)] = true)
+                }
             }
         }
     }
