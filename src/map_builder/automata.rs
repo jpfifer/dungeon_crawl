@@ -1,6 +1,6 @@
 use super::MapArchitect;
 use crate::prelude::*;
-use crate::spawners::themes::DungeonTheme;
+use crate::spawner::themes::DungeonTheme;
 
 pub struct CellularAutomataArchitect {}
 

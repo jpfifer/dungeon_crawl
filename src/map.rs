@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use crate::spawners::themes::DungeonTheme;
+use crate::spawner::themes::DungeonTheme;
 
 const NUM_TILES: usize = (SCREEN_WIDTH * SCREEN_HEIGHT) as usize;
 

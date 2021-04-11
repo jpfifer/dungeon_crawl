@@ -13,7 +13,7 @@ use crate::map_builder::empty::EmptyArchitect;
 use crate::map_builder::prefab::apply_prefab;
 use crate::map_builder::rooms::RoomsArchitect;
 use crate::prelude::*;
-use crate::spawners::themes::{DungeonTheme, ForestTheme};
+use crate::spawner::themes::{DungeonTheme, ForestTheme};
 
 trait MapArchitect {
     fn new(&mut self, rng: &mut RandomNumberGenerator) -> MapBuilder;

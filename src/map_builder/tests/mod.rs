@@ -18,6 +18,7 @@ fn display_rooms(mb: &MapBuilder) {
             }
             TileType::Wall => "#",
             TileType::Floor => ".",
+            TileType::Exit => "E",
         };
 
         if idx > 0 && idx % (SCREEN_WIDTH as usize) == 0 {

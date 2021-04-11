@@ -7,7 +7,6 @@ mod entity_render;
 mod fov;
 mod hud;
 mod map_render;
-mod monster_spawner;
 mod movement;
 mod player_input;
 mod random_move;
