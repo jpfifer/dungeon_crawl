@@ -15,6 +15,7 @@ pub struct Template {
     pub glyph: String,
     pub provides: Option<Vec<(String, i32)>>,
     pub hp: Option<i32>,
+    pub base_damage: Option<i32>,
 }
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
@@ -81,6 +82,7 @@ impl Templates {
                         max: template.hp.unwrap(),
                     },
                 );
+                commands.add_component(entity, Damage(template.base_damage.unwrap_or(1)));
             }
         }
         if let Some(effects) = &template.provides {
@@ -93,6 +95,12 @@ impl Templates {
                         println!("Unknown effect: {}", provides)
                     }
                 })
+        }
+        if let Some(damage) = template.base_damage {
+            commands.add_component(entity, Damage(damage));
+            if template.entity_type == EntityType::Item {
+                commands.add_component(entity, Weapon {});
+            }
         }
     }
 }

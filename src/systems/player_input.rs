@@ -17,6 +17,10 @@ pub fn player_input(
             *turn_state = TurnState::GameOver;
             return;
         }
+        if key == VirtualKeyCode::N {
+            *turn_state = TurnState::NextLevel;
+            return;
+        }
         let mut players = <(Entity, &Point)>::query().filter(component::<Player>());
         let delta = match key {
             VirtualKeyCode::Left => Point::new(-1, 0),
@@ -24,29 +28,32 @@ pub fn player_input(
             VirtualKeyCode::Up => Point::new(0, -1),
             VirtualKeyCode::Down => Point::new(0, 1),
             VirtualKeyCode::G => {
-                let (player, player_pos) = players
-                    .iter(ecs)
-                    .find_map(|(entity, pos)| Some((*entity, *pos)))
-                    .unwrap();
-                let mut items = <(Entity, &Item, &Point)>::query();
-                items
-                    .iter(ecs)
-                    .filter(|(_entity, _item, &item_pos)| item_pos == player_pos)
-                    .for_each(|(entity, _item, _item_pos)| {
-                        commands.remove_component::<Point>(*entity);
-                        commands.add_component(*entity, Carried(player));
-                    });
+                // let (player, player_pos) = players
+                //     .iter(ecs)
+                //     .find_map(|(entity, pos)| Some((*entity, *pos)))
+                //     .unwrap();
+                // let mut items = <(Entity, &Item, &Point)>::query();
+                // items
+                //     .iter(ecs)
+                //     .filter(|(_entity, _item, &item_pos)| item_pos == player_pos)
+                //     .for_each(|(entity, _item, _item_pos)| {
+                //         commands.remove_component::<Point>(*entity);
+                //         commands.add_component(*entity, Carried(player));
+                //     });
+                players.iter(ecs).for_each(|(e, _)| {
+                    commands.push(((), WantsToPickup { who: *e }));
+                });
                 Point::zero()
             }
             VirtualKeyCode::Key1 => use_item(0, ecs, commands),
-            VirtualKeyCode::Key2 => use_item(2, ecs, commands),
-            VirtualKeyCode::Key3 => use_item(3, ecs, commands),
-            VirtualKeyCode::Key4 => use_item(4, ecs, commands),
-            VirtualKeyCode::Key5 => use_item(5, ecs, commands),
-            VirtualKeyCode::Key6 => use_item(6, ecs, commands),
-            VirtualKeyCode::Key7 => use_item(7, ecs, commands),
-            VirtualKeyCode::Key8 => use_item(8, ecs, commands),
-            VirtualKeyCode::Key9 => use_item(9, ecs, commands),
+            VirtualKeyCode::Key2 => use_item(1, ecs, commands),
+            VirtualKeyCode::Key3 => use_item(2, ecs, commands),
+            VirtualKeyCode::Key4 => use_item(3, ecs, commands),
+            VirtualKeyCode::Key5 => use_item(4, ecs, commands),
+            VirtualKeyCode::Key6 => use_item(5, ecs, commands),
+            VirtualKeyCode::Key7 => use_item(6, ecs, commands),
+            VirtualKeyCode::Key8 => use_item(7, ecs, commands),
+            VirtualKeyCode::Key9 => use_item(8, ecs, commands),
             _ => Point::zero(),
         };
         let (player_entity, destination) = players

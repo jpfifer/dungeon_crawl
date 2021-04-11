@@ -31,6 +31,12 @@ pub struct WantsToAttack {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq)]
+pub struct Damage(pub i32);
+
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub struct Weapon;
+
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Health {
     pub current: i32,
     pub max: i32,
@@ -91,4 +97,9 @@ pub struct Carried(pub Entity);
 pub struct ActivateItem {
     pub used_by: Entity,
     pub item: Entity,
+}
+
+#[derive(Copy, Clone, Debug, PartialEq)]
+pub struct WantsToPickup {
+    pub who: Entity,
 }

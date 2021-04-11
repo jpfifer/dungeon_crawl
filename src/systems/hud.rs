@@ -37,7 +37,10 @@ pub fn hud(ecs: &SubWorld) {
     let mut y = 3;
     item_query
         .iter(ecs)
-        .filter(|(_, _, carried)| carried.0 == player)
+        .filter(|(_, _, carried)| {
+            let what = carried.0;
+            what == player
+        })
         .for_each(|(_, name, _)| {
             draw_batch.print(Point::new(3, y), format!("{}: {}", y - 2, &name.0));
             y += 1
